@@ -18,6 +18,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        generateRandomDices()
     }
 
     override func didReceiveMemoryWarning() {
@@ -26,11 +27,19 @@ class ViewController: UIViewController {
     }
 
     @IBAction func rollDices(_ sender: UIButton) {
+        generateRandomDices()
+    }
+    
+    func generateRandomDices() {
         var diceIndex = Int(arc4random_uniform(6))
-        leftDice.image = UIImage(named: "\(dice)\(diceIndex + 1)")
+        leftDice.image = getDiceImage(diceIndex)
         
         diceIndex = Int(arc4random_uniform(6))
-        rightDice.image = UIImage(named: "\(dice)\(diceIndex + 1)")
+        rightDice.image = getDiceImage(diceIndex)
+    }
+    
+    func getDiceImage(_ index:Int) -> UIImage {
+        return UIImage(named: "\(dice)\(index + 1)")!
     }
 }
 
