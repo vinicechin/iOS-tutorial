@@ -41,5 +41,9 @@ class ViewController: UIViewController {
     func getDiceImage(_ index:Int) -> UIImage {
         return UIImage(named: "\(dice)\(index + 1)")!
     }
+    
+    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+        generateRandomDices()
+    }
 }
 
