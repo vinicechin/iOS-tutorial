@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    var diceIndex: Int = 0
+    let dice = "dice"
     
     @IBOutlet weak var leftDice: UIImageView!
     @IBOutlet weak var rightDice: UIImageView!
@@ -26,9 +26,11 @@ class ViewController: UIViewController {
     }
 
     @IBAction func rollDices(_ sender: UIButton) {
-        diceIndex = Int(arc4random_uniform(6))
+        var diceIndex = Int(arc4random_uniform(6))
+        leftDice.image = UIImage(named: "\(dice)\(diceIndex + 1)")
         
-        print(diceIndex) 
+        diceIndex = Int(arc4random_uniform(6))
+        rightDice.image = UIImage(named: "\(dice)\(diceIndex + 1)")
     }
 }
 
