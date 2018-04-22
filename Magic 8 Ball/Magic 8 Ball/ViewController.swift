@@ -36,5 +36,9 @@ class ViewController: UIViewController {
     func getRandomIndex() -> Int {
         return Int(arc4random_uniform(5))
     }
+    
+    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+        generateRandomAnswer()
+    }
 }
 
