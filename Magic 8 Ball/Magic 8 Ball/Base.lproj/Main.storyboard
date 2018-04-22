@@ -37,7 +37,7 @@
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="ask:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tFt-S1-YP3"/>
+                                    <action selector="askAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="j2K-3g-qTv"/>
                                 </connections>
                             </button>
                         </subviews>

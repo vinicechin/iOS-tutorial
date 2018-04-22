@@ -9,11 +9,14 @@
 import UIKit
 
 class ViewController: UIViewController {
+    var ballImageText = "ball"
+    
     @IBOutlet weak var imageBall8: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        generateRandomAnswer()
     }
 
     override func didReceiveMemoryWarning() {
@@ -22,6 +25,16 @@ class ViewController: UIViewController {
     }
 
     @IBAction func askAction(_ sender: Any) {
+        generateRandomAnswer()
+    }
+    
+    func generateRandomAnswer() {
+        let index:Int = getRandomIndex()
+        imageBall8.image = UIImage(named: "\(ballImageText)\(index+1)")
+    }
+    
+    func getRandomIndex() -> Int {
+        return Int(arc4random_uniform(5))
     }
 }
 
