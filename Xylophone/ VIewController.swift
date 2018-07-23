@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import AVFoundation
 
-class ViewController: UIViewController{
+class ViewController: UIViewController, AVAudioPlayerDelegate {
     
-
+    var audioPlayer : AVAudioPlayer!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -19,9 +21,15 @@ class ViewController: UIViewController{
 
     @IBAction func notePressed(_ sender: UIButton) {
         
-        print( sender.tag )
+        let soundUrl = Bundle.main.url(forResource: "note1", withExtension: "wav")
         
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: soundUrl!)
+        } catch {
+            print(error)
+        }
         
+        audioPlayer.play()
     }
     
   
