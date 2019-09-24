@@ -8,7 +8,14 @@
 
 import Foundation
 
+enum CarType {
+    case Sedan
+    case Coupe
+    case Hatchback
+}
+
 class Car {
     var color = "Black"
     var sitsNumber = 4
+    var typeOfCar : CarType = .Coupe
 }
