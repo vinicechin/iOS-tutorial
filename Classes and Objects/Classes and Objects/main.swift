@@ -8,5 +8,9 @@
 
 import Foundation
 
+let myCar = Car()
 
+print(myCar.color)
+print(myCar.sitsNumber)
+print(myCar.typeOfCar)
 
