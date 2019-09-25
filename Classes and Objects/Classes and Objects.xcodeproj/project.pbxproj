@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		B1DC93DC233A6EED009371A3 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1DC93DB233A6EED009371A3 /* main.swift */; };
 		B1DC93E3233A7206009371A3 /* Car.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1DC93E2233A7206009371A3 /* Car.swift */; };
+		B1E274F7233BA35700B9F8C2 /* SelfDrivenCar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1E274F6233BA35700B9F8C2 /* SelfDrivenCar.swift */; };
 		D75E53BAFCE687B81DEBC406 /* Pods_Classes_and_Objects.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BACD465938A23AC17753EA60 /* Pods_Classes_and_Objects.framework */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +30,7 @@
 		B1DC93D8233A6EED009371A3 /* Classes and Objects */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Classes and Objects"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1DC93DB233A6EED009371A3 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		B1DC93E2233A7206009371A3 /* Car.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Car.swift; sourceTree = "<group>"; };
+		B1E274F6233BA35700B9F8C2 /* SelfDrivenCar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfDrivenCar.swift; sourceTree = "<group>"; };
 		BACD465938A23AC17753EA60 /* Pods_Classes_and_Objects.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Classes_and_Objects.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC640E4F83117E99DF3FE1BC /* Pods-Classes and Objects.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Classes and Objects.debug.xcconfig"; path = "Target Support Files/Pods-Classes and Objects/Pods-Classes and Objects.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -76,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				B1DC93DB233A6EED009371A3 /* main.swift */,
+				B1E274F6233BA35700B9F8C2 /* SelfDrivenCar.swift */,
 				B1DC93E2233A7206009371A3 /* Car.swift */,
 			);
 			path = "Classes and Objects";
@@ -174,6 +177,7 @@
 			files = (
 				B1DC93E3233A7206009371A3 /* Car.swift in Sources */,
 				B1DC93DC233A6EED009371A3 /* main.swift in Sources */,
+				B1E274F7233BA35700B9F8C2 /* SelfDrivenCar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
