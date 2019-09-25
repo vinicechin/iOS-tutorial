@@ -8,7 +8,7 @@
 
 import Foundation
 
-let myCar = Car()
+let car = SelfDrivenCar()
 
-myCar.drive()
+car.drive()
 
