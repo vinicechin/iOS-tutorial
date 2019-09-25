@@ -8,14 +8,7 @@
 
 import Foundation
 
-let myCar = Car(chosenColor: "Red")
-let otherCar = Car()
+let myCar = Car()
 
-print(myCar.color)
-print(myCar.nSeats)
-print(myCar.typeOfCar)
-
-print(otherCar.color)
-print(otherCar.nSeats)
-print(otherCar.typeOfCar)
+myCar.drive()
 
