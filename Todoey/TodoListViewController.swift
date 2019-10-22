@@ -12,10 +12,13 @@ class TodoListViewController: UITableViewController {
 
     var items = ["Comprar suco", "Alimentar Pingo", "Ir jogar laser tag"]
     
+    let defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+        if let todosList = defaults.array(forKey: "TodosList") as? [String] {
+            items = todosList
+        }
     }
 
     //MARK: - TableView Datasource Methods
@@ -54,6 +57,8 @@ class TodoListViewController: UITableViewController {
             if let name = textField.text, name != "" {
                 // Create new todo
                 self.items.append(name)
+                self.defaults.set(self.items, forKey: "TodosList")
+                
                 self.tableView.reloadData()
             }
         }
