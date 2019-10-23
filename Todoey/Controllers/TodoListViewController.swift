@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import CoreData
 
 class TodoListViewController: UITableViewController {
-    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Todos.plist")
+    let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
     var items = [Todo]()
     
     override func viewDidLoad() {
@@ -43,7 +44,7 @@ extension TodoListViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoItemCell", for: indexPath)
         
         let item = items[indexPath.row]
-        cell.textLabel?.text = item.description
+        cell.textLabel?.text = item.name
         cell.accessoryType = item.checked ? .checkmark : .none
         
         return cell
@@ -63,10 +64,11 @@ extension TodoListViewController {
         let alert = UIAlertController(title: "Add new Todoey item", message: "", preferredStyle: .alert)
         
         let action = UIAlertAction(title: "Add item", style: .default) { (action) in
-            if let name = textField.text, name != "" {
+            if let name = textField.text, name != "", let context = self.context {
                 // Create new todo
-                let newTodo = Todo()
-                newTodo.description = name
+                let newTodo = Todo(context: context)
+                newTodo.name = name
+                newTodo.checked = false
                 
                 self.items.append(newTodo)
                 self.saveTodos()
@@ -86,25 +88,21 @@ extension TodoListViewController {
 
 extension TodoListViewController {
     func saveTodos() {
-        let encoder = PropertyListEncoder()
-        
         do {
-            let data = try encoder.encode(self.items)
-            try data.write(to: self.dataFilePath!)
+            if let context = self.context {
+                try context.save()
+            }
         } catch {
-            print("Error encoding todos list, \(error)")
+            print("Error saving context, \(error)")
         }
     }
     
     func loadTodos() {
-        if let data = try? Data(contentsOf: dataFilePath!) {
-            let decoder = PropertyListDecoder()
-            
-            do {
-                items = try decoder.decode([Todo].self, from: data)
-            } catch {
-                print("Error decoding todos list, \(error)")
-            }
+        let request: NSFetchRequest<Todo> = Todo.fetchRequest()
+        do {
+            items = try context?.fetch(request) ?? [Todo]()
+        } catch {
+            print("Error fetching data from context, \(error)")
         }
     }
 }
