@@ -51,6 +51,9 @@ extension TodoListViewController {
     }
     
     func checkTodo(_ indexPath: IndexPath) {
+//        context?.delete(items[indexPath.row])
+//        items.remove(at: indexPath.row)
+        
         items[indexPath.row].checked = !items[indexPath.row].checked
         saveTodos()
         
@@ -64,16 +67,7 @@ extension TodoListViewController {
         let alert = UIAlertController(title: "Add new Todoey item", message: "", preferredStyle: .alert)
         
         let action = UIAlertAction(title: "Add item", style: .default) { (action) in
-            if let name = textField.text, name != "", let context = self.context {
-                // Create new todo
-                let newTodo = Todo(context: context)
-                newTodo.name = name
-                newTodo.checked = false
-                
-                self.items.append(newTodo)
-                self.saveTodos()
-                self.tableView.reloadData()
-            }
+            self.addTodo(textField)
         }
         
         alert.addTextField { (alert) in
@@ -87,6 +81,19 @@ extension TodoListViewController {
 }
 
 extension TodoListViewController {
+    func addTodo(_ textField: UITextField) {
+        if let name = textField.text, name != "", let context = context {
+            // Create new todo
+            let newTodo = Todo(context: context)
+            newTodo.name = name
+            newTodo.checked = false
+            
+            items.append(newTodo)
+            saveTodos()
+            tableView.reloadData()
+        }
+    }
+    
     func saveTodos() {
         do {
             if let context = self.context {
