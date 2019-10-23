@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Todo {
+class Todo: Codable {
     var description : String = ""
     var checked: Bool = false
 }

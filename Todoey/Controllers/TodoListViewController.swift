@@ -9,27 +9,13 @@
 import UIKit
 
 class TodoListViewController: UITableViewController {
-    let defaults = UserDefaults.standard
+    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Todos.plist")
     var items = [Todo]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var newItem = Todo()
-        newItem.description = "Comprar suco"
-        items.append(newItem)
-        
-        newItem = Todo()
-        newItem.description = "Alimentar Pingo"
-        items.append(newItem)
-        
-        newItem = Todo()
-        newItem.description = "Ir jogar laser tag"
-        items.append(newItem)
-        
-//        if let todosList = defaults.array(forKey: "TodosList") as? [Todo] {
-//            items = todosList
-//        }
+        loadTodos()
     }
 
     //MARK: - TableView Datasource Methods
@@ -38,6 +24,22 @@ class TodoListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return buildTodoCell(tableView, indexPath: indexPath)
+    }
+    
+    //MARK: - TableView Delegate Methods
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        checkTodo(indexPath)
+    }
+
+    //MARK: - Add new items
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        showAddTodoPopup()
+    }
+}
+
+extension TodoListViewController {
+    func buildTodoCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoItemCell", for: indexPath)
         
         let item = items[indexPath.row]
@@ -47,15 +49,15 @@ class TodoListViewController: UITableViewController {
         return cell
     }
     
-    //MARK: - TableView Delegate Methods
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func checkTodo(_ indexPath: IndexPath) {
         items[indexPath.row].checked = !items[indexPath.row].checked
+        saveTodos()
+        
         tableView.cellForRow(at: indexPath)?.accessoryType = items[indexPath.row].checked ? .checkmark : .none
         tableView.deselectRow(at: indexPath, animated: true)
     }
-
-    //MARK: - Add new items
-    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+    
+    func showAddTodoPopup() {
         var textField = UITextField()
         
         let alert = UIAlertController(title: "Add new Todoey item", message: "", preferredStyle: .alert)
@@ -67,8 +69,7 @@ class TodoListViewController: UITableViewController {
                 newTodo.description = name
                 
                 self.items.append(newTodo)
-//                self.defaults.set(self.items, forKey: "TodosList")
-                
+                self.saveTodos()
                 self.tableView.reloadData()
             }
         }
@@ -80,6 +81,31 @@ class TodoListViewController: UITableViewController {
         alert.addAction(action)
         
         present(alert, animated: true, completion: nil)
+    }
+}
+
+extension TodoListViewController {
+    func saveTodos() {
+        let encoder = PropertyListEncoder()
+        
+        do {
+            let data = try encoder.encode(self.items)
+            try data.write(to: self.dataFilePath!)
+        } catch {
+            print("Error encoding todos list, \(error)")
+        }
+    }
+    
+    func loadTodos() {
+        if let data = try? Data(contentsOf: dataFilePath!) {
+            let decoder = PropertyListDecoder()
+            
+            do {
+                items = try decoder.decode([Todo].self, from: data)
+            } catch {
+                print("Error decoding todos list, \(error)")
+            }
+        }
     }
 }
 
