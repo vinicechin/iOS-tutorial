@@ -9,17 +9,21 @@
 import UIKit
 import CoreData
 
+//MARK: - ViewController
 class TodoListViewController: UITableViewController {
+    @IBOutlet weak var searchBar: UISearchBar!
+    
     let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
     var items = [Todo]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        searchBar.delegate = self
         loadTodos()
     }
 
-    //MARK: - TableView Datasource Methods
+    //MARK: TableView Datasource Methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
     }
@@ -28,17 +32,18 @@ class TodoListViewController: UITableViewController {
         return buildTodoCell(tableView, indexPath: indexPath)
     }
     
-    //MARK: - TableView Delegate Methods
+    //MARK: TableView Delegate Methods
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         checkTodo(indexPath)
     }
 
-    //MARK: - Add new items
+    //MARK: Add new items
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         showAddTodoPopup()
     }
 }
 
+//MARK: - ViewModel
 extension TodoListViewController {
     func buildTodoCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoItemCell", for: indexPath)
@@ -78,9 +83,7 @@ extension TodoListViewController {
         
         present(alert, animated: true, completion: nil)
     }
-}
-
-extension TodoListViewController {
+    
     func addTodo(_ textField: UITextField) {
         if let name = textField.text, name != "", let context = context {
             // Create new todo
@@ -104,12 +107,34 @@ extension TodoListViewController {
         }
     }
     
-    func loadTodos() {
-        let request: NSFetchRequest<Todo> = Todo.fetchRequest()
+    func loadTodos(_ request: NSFetchRequest<Todo> = Todo.fetchRequest()) {
         do {
             items = try context?.fetch(request) ?? [Todo]()
         } catch {
             print("Error fetching data from context, \(error)")
+        }
+        
+        tableView.reloadData()
+    }
+}
+
+//MARK: - UISearchBarDelegate extension
+extension TodoListViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let request: NSFetchRequest<Todo> = Todo.fetchRequest()
+        request.predicate = NSPredicate(format: "name CONTAINS[cd] %@", searchBar.text!)
+        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        
+        loadTodos(request)
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text?.count == 0 {
+            loadTodos()
+            
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()                
+            }
         }
     }
 }
