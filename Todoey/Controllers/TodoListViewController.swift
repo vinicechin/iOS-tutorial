@@ -15,12 +15,16 @@ class TodoListViewController: UITableViewController {
     
     let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
     var items = [Todo]()
+    var selectedCategory: Category? {
+        didSet {
+            loadTodos()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         searchBar.delegate = self
-        loadTodos()
     }
 
     //MARK: TableView Datasource Methods
@@ -90,6 +94,7 @@ extension TodoListViewController {
             let newTodo = Todo(context: context)
             newTodo.name = name
             newTodo.checked = false
+            newTodo.parent = selectedCategory
             
             items.append(newTodo)
             saveTodos()
@@ -108,6 +113,17 @@ extension TodoListViewController {
     }
     
     func loadTodos(_ request: NSFetchRequest<Todo> = Todo.fetchRequest()) {
+        guard let name = selectedCategory?.name else {
+            return
+        }
+        
+        let categoryPredicate = NSPredicate(format: "parent.name MATCHES %@", name)
+        if let requestPredicate = request.predicate {
+            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [requestPredicate, categoryPredicate])
+        } else {
+            request.predicate = categoryPredicate
+        }
+        
         do {
             items = try context?.fetch(request) ?? [Todo]()
         } catch {
