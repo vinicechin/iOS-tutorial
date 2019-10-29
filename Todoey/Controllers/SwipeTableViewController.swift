@@ -17,6 +17,10 @@ class SwipeTableViewController: UITableViewController {
         tableView.rowHeight = 65
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.tintColor = UIColor.white
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return buildCell(tableView, cellForRowAt: indexPath)
     }

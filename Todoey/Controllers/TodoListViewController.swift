@@ -27,6 +27,14 @@ class TodoListViewController: SwipeTableViewController {
         
         searchBar.delegate = self
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let category = selectedCategory {
+            title = category.name
+        }
+    }
 
     //MARK: TableView Datasource Methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
