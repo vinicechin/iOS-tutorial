@@ -2,14 +2,14 @@
 //  CategoryViewController.swift
 //  Todoey
 //
-//  Created by Gabriella Barbieri on 24/10/19.
+//  Created by Vinicius Cechin on 24/10/19.
 //  Copyright © 2019 Vinicius Cechin. All rights reserved.
 //
 
 import UIKit
 import RealmSwift
 
-class CategoryViewController: UITableViewController {
+class CategoryViewController: SwipeTableViewController {
     let realm = try! Realm()
     var categories: Results<Category>?
     
@@ -21,6 +21,10 @@ class CategoryViewController: UITableViewController {
 
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         showAddCategoryPopup()
+    }
+    
+    override func deleteCell(at indexPath: IndexPath) {
+        deleteCategory(indexPath)
     }
 }
 
@@ -51,10 +55,8 @@ extension CategoryViewController {
 //MARK: - Data manipulation extension - View Model
 extension CategoryViewController {
     func buildCategoryCell(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)
-        
+        let cell = buildCell(tableView, cellForRowAt: indexPath)
         cell.textLabel?.text = categories?[indexPath.row].name ?? "No categories added yet"
-        
         return cell
     }
     
@@ -101,5 +103,16 @@ extension CategoryViewController {
         categories = realm.objects(Category.self)
 
         tableView.reloadData()
+    }
+    
+    func deleteCategory(_ indexPath: IndexPath) {
+        if let categoryToDelete = categories?[indexPath.row] {
+            do {
+                try realm.write {
+                    realm.delete(categoryToDelete)
+                }
+            } catch {
+                print("Error deleting category, \(error)")
+            }        }
     }
 }

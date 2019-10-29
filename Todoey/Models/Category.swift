@@ -2,7 +2,7 @@
 //  Category.swift
 //  Todoey
 //
-//  Created by Gabriella Barbieri on 24/10/19.
+//  Created by Vinicius Cechin on 24/10/19.
 //  Copyright © 2019 Vinicius Cechin. All rights reserved.
 //
 

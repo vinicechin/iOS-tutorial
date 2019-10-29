@@ -2,15 +2,16 @@
 //  ViewController.swift
 //  Todoey
 //
-//  Created by Gabriella Barbieri on 22/10/19.
+//  Created by Vinicius Cechin on 22/10/19.
 //  Copyright © 2019 Vinicius Cechin. All rights reserved.
 //
 
 import UIKit
 import RealmSwift
+import SwipeCellKit
 
 //MARK: - ViewController
-class TodoListViewController: UITableViewController {
+class TodoListViewController: SwipeTableViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     
     var todos: Results<Todo>?
@@ -45,12 +46,16 @@ class TodoListViewController: UITableViewController {
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         showAddTodoPopup()
     }
+    
+    override func deleteCell(at indexPath: IndexPath) {
+        deleteTodo(indexPath)
+    }
 }
 
 //MARK: - ViewModel
 extension TodoListViewController {
     func buildTodoCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TodoItemCell", for: indexPath)
+        let cell = buildCell(tableView, cellForRowAt: indexPath)
         
         let item = todos?[indexPath.row]
         cell.textLabel?.text = item?.name ?? "No items added"
@@ -112,6 +117,18 @@ extension TodoListViewController {
     func loadTodos() {
         todos = selectedCategory?.todos.sorted(byKeyPath: "creationDate", ascending: true)
         tableView.reloadData()
+    }
+    
+    func deleteTodo(_ indexPath: IndexPath) {
+        if let todoToDelete = todos?[indexPath.row] {
+            do {
+                try realm.write {
+                    realm.delete(todoToDelete)
+                }
+            } catch {
+                print("Error deleting todo, \(error)")
+            }
+        }
     }
 }
 

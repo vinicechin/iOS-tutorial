@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  Todoey
 //
-//  Created by Gabriella Barbieri on 22/10/19.
+//  Created by Vinicius Cechin on 22/10/19.
 //  Copyright © 2019 Vinicius Cechin. All rights reserved.
 //
 
