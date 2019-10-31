@@ -28,7 +28,7 @@ class ViewController: UIViewController {
 extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func setImagePicker() {
         imagePicker.delegate = self as UIImagePickerControllerDelegate & UINavigationControllerDelegate
-        imagePicker.sourceType = .photoLibrary // .camera
+        imagePicker.sourceType = .camera // .photoLibrary
         imagePicker.allowsEditing = false
     }
     
@@ -58,7 +58,13 @@ extension ViewController {
                 fatalError("Model failed to process image")
             }
             
-            print(results)
+            if let firstResult = results.first {
+                if firstResult.identifier.contains("hotdog") {
+                    self.navigationItem.title = "Hotdog!"
+                } else {
+                    self.navigationItem.title = "Not a Hotdog!"
+                }
+            }
         }
         
         do {
