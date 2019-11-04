@@ -19,15 +19,27 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Tco-fa-a1X">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="414"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Tco-fa-a1X" secondAttribute="height" multiplier="1:1" id="h1I-0x-ALh"/>
+                                </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="oO5-Rj-zrr">
+                                <rect key="frame" x="15" y="517" width="384" height="330"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Tco-fa-a1X" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="2dn-Bl-ud6"/>
                             <constraint firstItem="Tco-fa-a1X" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="BoE-3f-d7j"/>
+                            <constraint firstItem="oO5-Rj-zrr" firstAttribute="top" secondItem="Tco-fa-a1X" secondAttribute="bottom" constant="15" id="SWC-pM-FKl"/>
+                            <constraint firstItem="oO5-Rj-zrr" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="bby-HA-sa3"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="oO5-Rj-zrr" secondAttribute="trailing" constant="15" id="fkr-3F-7dm"/>
                             <constraint firstItem="Tco-fa-a1X" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="lsm-2S-34x"/>
-                            <constraint firstItem="Tco-fa-a1X" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="qeu-vu-QhB"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="oO5-Rj-zrr" secondAttribute="bottom" constant="15" id="mlI-fC-aVK"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -39,6 +51,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="descriptionLabel" destination="oO5-Rj-zrr" id="HSI-oN-z5S"/>
                         <outlet property="flowerImageView" destination="Tco-fa-a1X" id="jWv-dr-WST"/>
                     </connections>
                 </viewController>

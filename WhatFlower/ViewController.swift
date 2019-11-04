@@ -14,7 +14,9 @@ import SwiftyJSON
 
 class ViewController: UIViewController {
     @IBOutlet weak var flowerImageView: UIImageView!
+    @IBOutlet weak var descriptionLabel: UILabel!
     
+    let wikiURL = "https://en.wikipedia.org/w/api.php"
     let imagePicker = UIImagePickerController()
     
     override func viewDidLoad() {
@@ -54,9 +56,13 @@ extension ViewController {
         }
         
         let request = VNCoreMLRequest(model: model) { (request, error) in
-            let classification = request.results?.first as? VNClassificationObservation
+            guard let classification = request.results?.first as? VNClassificationObservation else {
+                fatalError("Could not classify flower")
+            }
             
-            self.navigationItem.title = classification?.identifier
+            let name = classification.identifier
+            self.navigationItem.title = name.capitalized
+            self.requestInfo(flowerName: name)
         }
         
         let handler = VNImageRequestHandler(ciImage: image)
@@ -64,6 +70,36 @@ extension ViewController {
             try handler.perform([request])
         } catch {
             print("Error analysing image, \(error)")
+        }
+    }
+    
+    func requestInfo(flowerName: String) {
+        let parameters: [String:String] = [
+            "format": "json",
+            "action": "query",
+            "prop": "extracts",
+            "exintro": "",
+            "explaintext": "",
+            "titles": flowerName,
+            "indexpageids": "",
+            "redirects": "1",
+        ]
+        
+        Alamofire.request(wikiURL, method: .get, parameters: parameters).responseJSON { (response) in
+            if response.result.isSuccess {
+                print("wiki data")
+                print(response)
+                
+                guard let value = response.result.value else {
+                    fatalError("Error getting wiki data")
+                }
+                
+                let flowerJSON: JSON = JSON(value)
+                let pageid = flowerJSON["query"]["pageids"][0].stringValue
+                let flowerDesc = flowerJSON["query"]["pages"][pageid]["extract"].stringValue
+                
+                self.descriptionLabel.text = flowerDesc
+            }
         }
     }
 }
