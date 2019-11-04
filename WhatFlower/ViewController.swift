@@ -9,6 +9,8 @@
 import UIKit
 import CoreML
 import Vision
+import Alamofire
+import SwiftyJSON
 
 class ViewController: UIViewController {
     @IBOutlet weak var flowerImageView: UIImageView!
